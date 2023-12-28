@@ -1,6 +1,7 @@
 import graphene 
 from graphene_django import DjangoObjectType
 from books.models import Book
+from django.views.decorators.csrf import csrf_exempt
 
 class BookType(DjangoObjectType):
     class Meta:
@@ -29,10 +30,26 @@ class DeleteBookMutation(graphene.Mutation):
         book.delete()
         return DeleteBookMutation(message="Book deleted")
 
+class UpdateBookMutation(graphene.Mutation):
+    class Arguments:
+        id = graphene.ID(required = True)
+        title = graphene.String()
+        description = graphene.ID()
+        
+    book = graphene.Field(BookType)
+    
+    def mutate(self, info, id, title, description):
+        book = Book.objects.get(pk=id)
+        book.title = title
+        book.description = description
+        book.save()
+        return UpdateBookMutation(book=book)
+
 class Query(graphene.ObjectType):
     books = graphene.List(BookType)
     book = graphene.Field(BookType, id=graphene.ID())
     
+    @csrf_exempt
     def resolve_books(self, info):
         return Book.objects.all()
     
@@ -43,6 +60,7 @@ class Query(graphene.ObjectType):
 class Mutation(graphene.ObjectType):
     create_book = CreateBookMutation.Field()
     delete_book = DeleteBookMutation.Field()
+    update_book = UpdateBookMutation.Field()
     
       
 schema = graphene.Schema(query=Query, mutation=Mutation)
