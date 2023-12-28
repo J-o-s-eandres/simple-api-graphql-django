@@ -1,5 +1,3 @@
-Claro, aquí tienes un ejemplo de un `readme.md` básico para tu API GraphQL con Graphene y Django. Puedes personalizarlo según tus necesidades específicas.
-
 ```markdown
 # GraphQL API with Graphene and Django
 
