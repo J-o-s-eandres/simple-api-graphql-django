@@ -40,8 +40,8 @@ This is a basic GraphQL API built using Graphene and Django. It allows you to pe
 # Create a Book
 mutation {
   createBook(
-    title: "C++ Developer",
-    description: "Libro de C++"
+    title: "Title Book",
+    description: "Description Book"
   ) {
     book {
       id
@@ -72,8 +72,8 @@ mutation {
 mutation {
   updateBook(
     id: 2,
-    title: "Project Hadoop",
-    description: "Big Data Book"
+    title: "Title Book",
+    description: "Description Book"
   ) {
     book {
       id
